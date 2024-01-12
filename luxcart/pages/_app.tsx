@@ -8,11 +8,11 @@ const inter = Poppins({ subsets: ['latin'], weight:'400'})
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
+    <main className={`mx-auto max-w-screen-xl px-4 sm:px-6 ${inter.className}`}>
     <SessionProvider>
       <Header/>
-    <main className={`${inter.className}`}>
       <Component {...pageProps} />
-    </main>
     </SessionProvider>
+    </main>
   )
 }
