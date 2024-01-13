@@ -4,32 +4,52 @@ import axios from "axios"
 import router from "next/router"
 import { useState } from "react"
 import Spinner from "./Spinner"
+import toast from "react-hot-toast"
 // import { ReactSortable } from 'react-sortablejs';
 
-type Props = {}
+type ProductProps = {
+    _id?: string;
+    existingTitle: string;
+    existingDescription: string;
+    existingPrice: number;
+};
 
-const Product = (props: Props) => {
+const Product = ({ _id, existingTitle, existingDescription, existingPrice }: ProductProps) => {
 
     const [redirect, setRedirect] = useState(false);
 
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
-    const [price, setPrice] = useState('')
-    const [images, setImages] = useState<string[]>([]); // Specify string[] type
+    const [title, setTitle] = useState(existingTitle || '')
+    const [description, setDescription] = useState(existingDescription || '')
+    const [price, setPrice] = useState(existingPrice || '')
+    const [images, setImages] = useState([]); // Specify string[] type
     const [isUploading, setIsUploading] = useState(false);
+
+    // console.log({_id,existingTitle,existingDescription,existingPrice});
 
     const createProject = async (ev: React.FormEvent<HTMLFormElement>) => {
         ev.preventDefault();
 
-        if (isUploading) {
+        if(isUploading){
             await Promise.all(uploadImagesQueue);
         }
 
         const data = { title, description, price, images };
+        console.log({data});
+        if(_id){
+            console.log('data send')
+            const res = await axios.put('/api/products', {...data,_id});
+            if(res.status == 200){
+                router.push('/products'); 
+                toast.success('Product edited!')
+            }
+        }
+        else{
         const res = await axios.post('/api/products', data);
-
-        if (res.status == 200)
-            router.push('/products');
+        if(res.status == 200)
+            router.push('/products');  
+            toast.success('Product created!')
+        }
+        
     }
 
     const uploadImagesQueue: Promise<void>[] = [];
@@ -115,8 +135,8 @@ const Product = (props: Props) => {
                                 ))} */}
                             {/* </ReactSortable> */}
                             {Array.isArray(images) && images.map((link, index) => (
-                                <div key={link} className="relative group bg-slate-500 w-44">
-                                    <img src={link} alt="image" className="object-cover h-32 w-44 rounded-md" />
+                                <div key={link} className="relative group bg-slate-500 h-32 w-44 border rounded-sm">
+                                    <img src={link} alt="image" className="object-cover h-full w-full border rounded-sm" />
 
                                     <div className="absolute top-2 right-2 cursor-pointer opacity-0 group-hover:opacity-100">
                                         <button onClick={() => handleDeleteImage(index)}>
@@ -148,7 +168,7 @@ const Product = (props: Props) => {
                 </div>
 
                 <div className="mx-auto my-4">
-                    <button
+                    <button type="submit"
                         className="w-full inline-block rounded border border-indigo-600 hover:border-green-300 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-green-600 focus:outline-none focus:ring active:text-indigo-500"
                     >
                         Save Product
