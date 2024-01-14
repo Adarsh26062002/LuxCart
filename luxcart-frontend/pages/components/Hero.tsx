@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Link from 'next/link'
+import { CartContext } from '@/lib/CartContext';
+import toast from 'react-hot-toast';
 
 type ProductProps = {
     _id: string;
@@ -10,6 +12,12 @@ type ProductProps = {
 }
 
 const Hero = (product: ProductProps) => {
+    const {addProduct} = useContext(CartContext)
+
+    const addItemToCart = ()=>{
+        addProduct(product._id);
+        toast.success('Item added to cart!')
+    }
     return (
         <>
             <div className='relative overflow-hidden my-14 md:my-10'>
@@ -24,7 +32,7 @@ const Hero = (product: ProductProps) => {
                     </div> */}
 
                             <div className='flex gap-4 items-center max-sm:justify-center max-sm:mt-6 mt-10'>
-                                <button type="button" className="hover:bg-transparent hover:text-primary rounded-lg border border-primary bg-primary px-5 py-2.5 text-center text-md font-medium text-white shadow-sm transition-all hover:border-primary-700 hover:bg-primary-700 focus:ring focus:ring-primary-200 disabled:cursor-not-allowed disabled:border-primary-300 disabled:bg-primary-300">
+                                <button onClick={addItemToCart} type="button" className="hover:bg-transparent hover:text-primary rounded-lg border border-primary bg-primary px-5 py-2.5 text-center text-md font-medium text-white shadow-sm transition-all hover:border-primary-700 hover:bg-primary-700 focus:ring focus:ring-primary-200 disabled:cursor-not-allowed disabled:border-primary-300 disabled:bg-primary-300">
                                     Add to Cart</button>
                                 <Link href="/products" className="bg-transparent hover:text-primary rounded-lg border border-primary px-5 py-2.5 text-center text-md font-medium text-gray-500 shadow-sm transition-all hover:border-primary-700 hover:bg-primary-700 focus:ring focus:ring-primary-200 disabled:cursor-not-allowed disabled:border-primary-300 disabled:bg-primary-300">
                                     All Products</Link>
