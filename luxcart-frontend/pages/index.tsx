@@ -3,6 +3,7 @@ import Hero from './components/Hero';
 import { mongooseConnect } from '@/lib/mongoose';
 import { Product } from '@/models/Products';
 import Products from './components/Products';
+import Collection from './components/Collection';
 
 type HomeProps = {
   featuredProduct: {
@@ -20,10 +21,17 @@ type HomeProps = {
       price: number;
       images: [string]
     }
-  ]
+  ],
+  collectionProduct:{
+    _id: string;
+    title: string;
+    description: string;
+    price: number;
+    images: [string]
+  }
 };
 
-const Home: React.FC<HomeProps> = ({ featuredProduct, newProducts}) => {
+const Home: React.FC<HomeProps> = ({ featuredProduct, newProducts, collectionProduct}) => {
   // console.log({newProducts});
   return (
     <>
@@ -31,7 +39,7 @@ const Home: React.FC<HomeProps> = ({ featuredProduct, newProducts}) => {
       <hr className="my-4 h-px border-0 bg-gray-300" />
       <Products {...newProducts}/>
       <hr className="my-4 h-px border-0 bg-gray-300" />
-      
+      <Collection {...collectionProduct}/>
     </>
   );
 };
