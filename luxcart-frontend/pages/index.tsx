@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import Hero from './components/Hero';
 import { mongooseConnect } from '@/lib/mongoose';
-import { Product } from '@/models/Products';
+import { Product } from '@/models/Product';
 import Products from './components/Products';
 import Collection from './components/Collection';
+import Footer from './components/Footer';
 
 type HomeProps = {
   featuredProduct: {
@@ -37,9 +38,10 @@ const Home: React.FC<HomeProps> = ({ featuredProduct, newProducts, collectionPro
     <>
       <Hero {...featuredProduct}/>
       <hr className="my-4 h-px border-0 bg-gray-300" />
-      <Products {...newProducts}/>
+      <Products products={newProducts}/>
       <hr className="my-4 h-px border-0 bg-gray-300" />
       <Collection {...collectionProduct}/>
+      <Footer/>
     </>
   );
 };
@@ -48,7 +50,7 @@ export const getServerSideProps = async () => {
   await mongooseConnect();
 
   const featuredId = '65a148b8ca539cb172bb415b';
-  const collectionId = '65a148b8ca539cb172bb415b';
+  const collectionId = '65a4b084a96925ad3014fc41';
 
   const featuredProduct = await Product.findById(featuredId);
   const collectionProduct = await Product.findById(collectionId);

@@ -5,6 +5,7 @@ import toast from 'react-hot-toast'
 import Spinner from '../components/Spinner'
 import Link from 'next/link'
 import { signIn, useSession } from 'next-auth/react'
+import Success from '../components/Success'
 
 type Props = {}
 
@@ -78,23 +79,23 @@ const Cart = (props: Props) => {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
   
-    // async function stripeCheckout() {
-    //   const response = await axios.post('/api/checkout', {
-    //     email: session.user.email, name: session.user.name, address, country, zip, city, cartProducts
-    //   });
+    async function stripeCheckout() {
+      const response = await axios.post('/api/checkout', {
+        email: session?.user?.email, name: session?.user?.name, address, country, zip, city, cartProducts
+      });
   
-    //   if (response.data.url) {
-    //     window.location = response.data.url
-    //   } else {
-    //     toast.error('An error occured!!')
-    //   }
-    // }
+      if (response.data.url) {
+        window.location = response.data.url
+      } else {
+        toast.error('An error occured!!')
+      }
+    }
   
-    // if (isSuccess) {
-    //   return <>
-    //     <Success />
-    //   </>
-    // }
+    if (isSuccess) {
+      return <>
+        <Success />
+      </>
+    }
   
     if (session) {
       return <>
@@ -181,10 +182,10 @@ const Cart = (props: Props) => {
                             <dd>$ {formatPrice(total)}</dd>
                           </div>
   
-                          {/* <strike className="flex justify-between">
+                          <strike className="flex justify-between">
                             <dt>VAT</dt>
-                            <dd>ksh. {formatPrice(total / 1000)}</dd>
-                          </strike> */}
+                            <dd>$ {formatPrice(total / 1000)}</dd>
+                          </strike>
   
                           <div className="flex justify-between !text-base font-medium">
                             <dt>Total</dt>
@@ -289,7 +290,7 @@ const Cart = (props: Props) => {
                     </div>
                     <div className="col-span-12 text-center w-full">
                       <button
-                        // onClick={stripeCheckout}
+                        onClick={stripeCheckout}
                         className="disabled block rounded bg-secondary px-5 py-3 text-md text-text transition hover:bg-purple-300 w-full"
                       >
                         Checkout

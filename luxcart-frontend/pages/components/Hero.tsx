@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import Link from 'next/link'
 import { CartContext } from '@/lib/CartContext';
 import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
 
 type ProductProps = {
     _id: string;
@@ -18,9 +19,10 @@ const Hero = (product: ProductProps) => {
         addProduct(product._id);
         toast.success('Item added to cart!')
     }
+
     return (
         <>
-            <div className='relative overflow-hidden my-14 md:my-10'>
+            <div className='relative overflow-hidden my-14 md:my-10 ml-6'>
                 <div className='lg:py-40 min-h-[650px]'>
                     <div className='relative mx-auto sm:static px-6 lg:px-8'>
                         <div className='max-w-xl text-start '>
@@ -64,6 +66,7 @@ const Hero = (product: ProductProps) => {
             </div>
         </>
     )
+
 }
 
 export default Hero

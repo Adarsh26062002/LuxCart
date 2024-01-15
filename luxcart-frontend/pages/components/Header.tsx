@@ -16,12 +16,12 @@ const Header = (props: Props) => {
     
     const {data:session} = useSession()
 
-    if(session){
+    // if(session){
     return (
         <>
             <header className="bg-white border-b border-primary border-opacity-40 sticky top-0 z-40">
-                <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
-                    <Link className="text-primary flex items-center font-bold text-2xl" href="/">
+                <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-8">
+                    <Link className="text-primary flex items-center font-bold text-3xl pr-4" href="/">
                         {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
                         </svg> */}
@@ -30,7 +30,7 @@ const Header = (props: Props) => {
 
                     <div className="flex flex-1 items-center justify-end md:justify-between">
                         <nav aria-label="Global" className="hidden md:block">
-                            <ul className="flex items-center gap-6 text-sm">
+                            <ul className="flex items-center gap-6 text-lg">
                                 <li>
                                     <Link className={pathname === '/' ? active : inactive} href="/"> Home </Link>
                                 </li>
@@ -38,6 +38,10 @@ const Header = (props: Props) => {
                                 <li>
                                     <Link className={pathname === '/products' ? active : inactive} href="/products"> All Products </Link>
                                 </li>
+
+                                {session && (<li>
+                                    <Link className={pathname === '/settings' ? active : inactive} href="/settings"> Settings </Link>
+                                </li>)}
                             </ul>
                         </nav>
 
@@ -50,7 +54,7 @@ const Header = (props: Props) => {
                                         </div>
                                     </div>
                                 ):(
-                                <Link className="block px-5 py-1.5 text-sm font-medium  transition border-r border-primary "
+                                <Link className="block px-5 py-1.5 text-sm  transition border-r border-primary font-bold"
                                     href="/"
                                 >
                                     Account
@@ -92,7 +96,7 @@ const Header = (props: Props) => {
             </header>
         </>
     )
-    }
 }
+// }
 
 export default Header

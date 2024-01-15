@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React from 'react'
 
@@ -10,10 +11,12 @@ type collectionProductProps = {
 }
 
 const formatPrice = (price: any) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 
 const Collection = (collectionProduct: collectionProductProps) => {
+    const {data:session} = useSession();
+
     return (
         <>
             <section>
@@ -27,9 +30,9 @@ const Collection = (collectionProduct: collectionProductProps) => {
                         </p>
                     </header>
                     <div className=''>
-                        <div className='px-4 py-8 mx-auto sm:py-12 lg'>
-                            <div className='grid grid-cols-1 gap-4 lg:grid-cols-3 lg:items-stretch'>
-                                <div className='grid p-6 bg-gray-100 rounded place-content-center sm:p-8'>
+                        <div className='mx-w-screen-2xl px-4 py-8 mx-auto sm:py-12 sm:px-6 lg:px-8'>
+                            <div className='grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-stretch'>
+                                <div className='grid h-full bg-gray-100 rounded place-content-center sm:p-8'>
                                     <div className='max-w-md mx-auto text-center  lg:text-left'>
                                         <header>
                                             <h2 className='text-xl font-bold text-accent sm:text-3xl'>
@@ -47,16 +50,16 @@ const Collection = (collectionProduct: collectionProductProps) => {
                                     </div>
                                 </div>
 
-                                <div className='lg-col-span-2 lg:py-8'>
+                                <div className='lg-col-span-2 lg:py-8 min-w-96'>
                                     <ul className='grid grid-cols-2 gap-4'>
                                         <li>
                                             <div className='block group'>
-                                                <img src={collectionProduct.images[0]} alt="product" className='object-cover w-full rounded aspect-square' />
+                                                <img src={collectionProduct.images[0]} alt="product" className='object-cover w-full rounded aspect-square h-80' />
                                             </div>
                                         </li>
                                         <li>
                                             <div className='block group'>
-                                                <img src={collectionProduct.images[0]} alt="product" className='object-cover w-full rounded aspect-square' />
+                                                <img src={collectionProduct.images[0]} alt="product" className='object-cover w-96 rounded aspect-square h-80' />
                                             </div>
                                         </li>
                                     </ul>
