@@ -64,6 +64,7 @@ const Cart = (props: Props) => {
   
     function increaseProduct(id) {
       addProduct(id);
+      toast.success('Item added!')
     }
   
     function decreaseProduct(id) {
@@ -126,10 +127,10 @@ const Cart = (props: Props) => {
                             />
   
                             <div>
-                              <h3 className="text-md text-text max-w-md">{product.title}</h3>
+                              <h3 className="text-lg text-text max-w-md">{product.title}</h3>
   
                               <dl className="mt-0.5 space-y-px text-[10px] text-text">
-                                <p>$ {cartProducts.filter(id => id === product._id).length * product.price}</p>
+                                <p className='text-lg text-primary'>$ {cartProducts.filter(id => id === product._id).length * product.price}</p>
                               </dl>
                             </div>
   

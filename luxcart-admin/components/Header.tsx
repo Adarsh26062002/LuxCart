@@ -18,18 +18,18 @@ const Header = (props: Props) => {
           <div className="lg:px-8">
             <div className="flex h-16 items-center justify-between">
               <div className="flex-1 md:flex md:items-center md:gap-12">
-                <a className="block text-teal-600" href="/">
-                  <span className="sr-only">Home</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+                <a className="text-teal-600 flex items-center gap-2" href="/">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-8 h-8">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
                   </svg>
+                  <span className="inline-block text-xl">Admin.</span>
 
                 </a>
               </div>
 
               <div className="md:flex md:items-center md:gap-12">
                 <nav aria-label="Global" className="hidden md:block">
-                  <ul className="flex items-center gap-6 text-sm">
+                  <ul className="flex items-center gap-6 text-md">
                     <li>
                       <a className={location.pathname=='/' ? active:inactive} href="/">Dashboard </a>
                     </li>
