@@ -1,66 +1,37 @@
-import Product from '@/components/Product';
-import axios from 'axios';
-import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
-import toast from 'react-hot-toast';
+import Product from "@/components/Product";
+import axios from "axios";
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react";
 
-type Props = {}
-
-type ProductInfo = {
-  _id: string;
-  title: string;
-  description: string;
-  price: number;
-}
-
-const EditProduct = (props: Props) => {
+export default function EditProduct() {
   const router = useRouter();
-  const {id} = router.query;
-  const [productsInfo,setProductsInfo] = useState<ProductInfo | null>(null);
-  console.log({id});
+  const { id } = router.query;
+  const [productInfo, setProductInfo] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (!id) {
-          return;
-        } else {
-          const response = await axios.get('/api/products?id=' + id);
-          if(response.status == 200){
-            setProductsInfo(response.data);
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-  
-    fetchData();
-  }, [id]);
-  console.log({productsInfo});
+    if (!id) {
+      return;
+    }
+    axios.get('/api/products?id=' + id).then(response => {
+      setProductInfo(response.data)
+    })
+  }, [id])
+  return <>
+    <div className="max-sm:p-4">
 
-  return (
-    <>
-    <div className="sm:flex sm:items-center sm:justify-between">
+      <div className="sm:flex sm:items-center sm:justify-center">
         <div className="text-center sm:text-left">
-          <p className="m-4 text-sm text-gray-500">Let's create a new product! 🎉</p>
-        </div>
-        <div className="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
+          <p className="my-4 text-xl text-red-500">
+            Editing <span className="text-green-600">{productInfo?.title}</span>
+          </p>
         </div>
       </div>
-
-      <hr className="h-px border-0 bg-gray-200" />
-
-      <div className='my-10'>
-       {productsInfo && (
-        <Product _id={productsInfo._id}
-        existingTitle={productsInfo.title}
-        existingDescription={productsInfo.description}
-        existingPrice={productsInfo.price}
-        />
-       )}
-      </div></>
-  )
+      <hr className="my-8 h-px border-0 bg-gray-300" />
+      <div className="my-10 max-sm:my-12">
+        {productInfo && (
+          <Product {...productInfo} />
+        )}
+      </div>
+    </div>
+  </>
 }
-
-export default EditProduct

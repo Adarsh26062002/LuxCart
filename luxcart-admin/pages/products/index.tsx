@@ -25,7 +25,6 @@ const Products = () => {
     })
   }, [])
 
-  console.log(typeof products);
   return (
     <>
       <header>
