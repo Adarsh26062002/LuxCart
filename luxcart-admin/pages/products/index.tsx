@@ -11,6 +11,7 @@ type Product = {
   title: string;
   description: string;
   price: number;
+  images:[string]
 }
 
 
@@ -74,7 +75,17 @@ const Products = () => {
                 <tbody key={product._id} className="divide-y divide-gray-100 border-t border-gray-100">
                   <tr>
                     <th className="px-6 py-4 font-medium text-gray-900">{index + 1}</th>
-                    <td className="px-6 py-4">{product.title}</td>
+                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 flex items-center  gap-1">
+                      <div className="h-10 w-10">
+                        <img
+                          className="h-full w-full rounded-full object-cover object-center bg-gray-200"
+                          src={product.images?.[0]}
+                          alt={product.title}
+                        />
+
+                      </div>
+                      {product.title}
+                    </td>
                     <td className="px-6 py-4 truncate max-w-xs">{product.description}</td>
                     <td className="px-6 py-4">
                       {formatPrice(product.price)}
