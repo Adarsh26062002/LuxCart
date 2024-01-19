@@ -2,8 +2,9 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
-import { ReactSortable } from "react-sortablejs";
+import { ReactSortable,ItemInterface } from "react-sortablejs";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 type Props = {
     _id:string,
@@ -11,15 +12,17 @@ type Props = {
     description:string,
     price:number,
     images:[string],
-    category:{
-        name:string,
-        parent:string,
-    },
+    category:string,
     details:string,
     brand:string,
     colors:string,
     gender:string,
     sizes:string
+}
+
+type Categories = {
+    _id:string,
+    name: string
 }
 
 export default function Product({
@@ -29,7 +32,7 @@ export default function Product({
   price: existingPrice,
   images: existingImages,
   category: selectedCategory,
-  details: existingDetails, // Added details
+  details: existingDetails, 
   brand: existingBrand,
   colors: existingColors,
   gender: existingGender,
@@ -39,7 +42,7 @@ export default function Product({
   const [title, setTitle] = useState(existingTitle || '');
   const [description, setDescription] = useState(existingDescription || '');
   const [price, setPrice] = useState(existingPrice || '');
-  const [images, setImages] = useState(existingImages || []);
+  const [images, setImages] = useState<string[]>(existingImages || []);
   const [details, setDetails] = useState(existingDetails || ''); // Added details
   const [brand, setBrand] = useState(existingBrand || '');
   const [colors, setColors] = useState(existingColors || '');
@@ -48,9 +51,19 @@ export default function Product({
   const router = useRouter();
   const [redirect, setRedirect] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const uploadImagesQueue = [];
-  const [categories, setCategories] = useState([]);
+  const uploadImagesQueue:Array<string> = [];
+  const [categories, setCategories] = useState<Categories[]>([]);
   const [category, setCategory] = useState(selectedCategory || '');
+
+  const imagesWithId: ItemInterface[] = images.map((link, index) => ({
+    id: index.toString(),
+    link,  // Assuming 'link' is the property used in your ItemInterface for the image URL
+  }));
+
+  const updateImagesOrder = (newImagesOrder: ItemInterface[]) => {
+    const updatedImages = newImagesOrder.map(item => item.link);
+    setImages(updatedImages);
+  };
 
   useEffect(() => {
     axios.get('/api/categories').then(result => {
@@ -66,6 +79,7 @@ export default function Product({
     if (isUploading) {
       // Wait for the images to finish uploading
       await Promise.all(uploadImagesQueue);
+      
     }
 
     // Now you can make the API request to save the product
@@ -82,45 +96,61 @@ export default function Product({
     setRedirect(true);
   }
 
-  async function uploadImages(ev:React.ChangeEvent<HTMLInputElement>) {
-    const files = ev.target?.files;
-    if (files?.length > 0) {
-      setIsUploading(true);
+//   console.log(typeof uploadImagesQueue)
 
+async function uploadImages(ev: React.ChangeEvent<HTMLInputElement>) {
+    const files = ev.target?.files;
+  
+    if (files && files?.length > 0) {
+      setIsUploading(true);
+  
+      // Create an array to store all the promises
+      const uploadPromises = [];
+  
       for (const file of files) {
         const data = new FormData();
         data.append('file', file);
-
-        // Use the axios.post method and push the promise to the queue
-        uploadImagesQueue.push(
-          axios.post('/api/upload', data)
-            .then(res => {
-              setImages(oldImages => [...oldImages, ...res.data.links]);
-            })
-        );
+  
+        // Create a promise and push it to the array
+        const uploadPromise = axios.post('/api/upload', data)
+          .then(res => {
+            setImages(oldImages => [...oldImages, ...res.data.links]);
+          })
+          .catch(error => {
+            // Handle individual upload errors
+            console.error(`Error uploading ${file.name}:`, error);
+          });
+  
+        uploadPromises.push(uploadPromise);
       }
-
-      // Wait for all images to finish uploading
-      await Promise.all(uploadImagesQueue);
-
-      setIsUploading(false);
-      toast.success('Image uploaded')
+  
+      try {
+        // Wait for all images to finish uploading
+        await Promise.all(uploadPromises);
+        toast.success('Images uploaded successfully');
+      } catch (error) {
+        // Handle errors if any of the uploads fail
+        console.error('Error uploading images:', error);
+        toast.error('An error occurred during image upload');
+      } finally {
+        // Clear the uploadImagesQueue after all promises are resolved
+        uploadImagesQueue.length = 0;
+        setIsUploading(false);
+      }
     } else {
-      toast.error('An error occurred!')
+      toast.error('No files selected for upload');
     }
   }
+  
 
   if (redirect) {
     router.push('/products');
     return null;
   }
 
-  function updateImagesOrder(images:[string]) {
-    setImages(images)
-  }
 
   function handleDeleteImage(index:number) {
-    const updatedImages:[string] = [...images];
+    const updatedImages = [...images];
     updatedImages.splice(index, 1);
     setImages(updatedImages);
     toast.success('image deleted successfully!!')
@@ -158,7 +188,7 @@ export default function Product({
             onChange={(ev) => setCategory(ev.target.value)}
           >
             <option value="0">No category selected</option>
-            {categories.length > 0 &&
+            {categories && categories.length > 0 &&
               categories.map((cat) => (
                 <option key={cat._id} value={cat._id}>
                   {cat.name}
@@ -193,10 +223,10 @@ export default function Product({
           {/* Display uploaded images */}
           {!isUploading && (
             <div className=" grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-2">
-              <ReactSortable list={images} setList={updateImagesOrder} className="w-[350px] h-auto  gap-2 flex  justify-between align-items-center">
+              <ReactSortable list={imagesWithId} setList={updateImagesOrder} className="w-[350px] h-auto  gap-2 flex  justify-between align-items-center">
                 {images?.map((link, index) => (
                   <div key={link} className="relative group">
-                    <img src={link} alt="image" className="object-cover h-32 w-44 rounded-md border p-2 cursor-pointer transition-transform transform-gpu group-hover:scale-105" />
+                    <Image width={100} height={100} src={link} alt="image" className="object-cover h-32 w-44 rounded-md border p-2 cursor-pointer transition-transform transform-gpu group-hover:scale-105" />
                     <div className="absolute top-2 right-2 cursor-pointer opacity-0 group-hover:opacity-100">
                       <button onClick={() => handleDeleteImage(index)}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 text-orange-600 bg-white rounded-full">
@@ -206,7 +236,6 @@ export default function Product({
                     </div>
                   </div>
                 ))}
-
               </ReactSortable>
             </div>
           )}
@@ -218,7 +247,6 @@ export default function Product({
           <label className="col-span-1 block text-lg font-medium text-gray-700 mb-3">Description</label>
           <div className="col-span-2">
             <textarea
-              type="text"
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 border p-3"
               placeholder="Description about the product"
               rows={6}
@@ -236,7 +264,6 @@ export default function Product({
           </label>
           <div className="col-span-2">
             <textarea
-              type="text"
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 border p-3"
               placeholder="Product details"
               rows={6}

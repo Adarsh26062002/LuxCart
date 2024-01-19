@@ -4,11 +4,22 @@ import { useEffect } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
+type Categories = {
+    _id:string,
+    name: string,
+    parent:{
+        name:string,
+    }
+}
+
+type EditedCategory = any
+
 export default function Categories() {
   const [name, setName] = useState('');
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Categories[]>([]);
   const [parentCategory, setParentCategory] = useState('');
-  const [editedCategory, setEditedCategory] = useState(null);
+  const [editedCategory, setEditedCategory] = useState<EditedCategory>(null);
+  const [editedCategoryId, setEditedCategoryId] = useState('');
 
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => {
@@ -29,15 +40,15 @@ export default function Categories() {
     })
   }
 
-  async function saveCategory(ev) {
+  async function saveCategory(ev:React.ChangeEvent<HTMLFormElement>) {
     ev.preventDefault();
-    const data = { name, parentCategory }
     if (editedCategory) {
-      data._id = editedCategory._id
+      const data = { name, parentCategory, _id:editedCategoryId}
       await axios.put('/api/categories', data);
       setEditedCategory(null);
       toast.success('Category updated!!')
     } else {
+        const data = { name, parentCategory}
       await axios.post('/api/categories', data);
       toast.success('Category created successfully')
     }
@@ -46,13 +57,14 @@ export default function Categories() {
     fetchCategories();
   }
 
-  function editCategory(category) {
+  function editCategory(category:any) {
     setEditedCategory(category);
     setName(category.name);
     setParentCategory(category.parent?._id)
+    setEditedCategoryId(category._id);
   }
 
-  async function deleteCategory(category) {
+  async function deleteCategory(category:any) {
     const { _id } = category;
     await axios.delete('/api/categories?_id=' + _id);
     closeModal();

@@ -8,10 +8,24 @@ const formatPrice = (price:any) =>{
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g,',')
 }
 
+type Products = {
+    _id:string,
+    title:string,
+    description:string,
+    price:number,
+    images:[string],
+    category:string,
+    details:string,
+    brand:string,
+    colors:string,
+    gender:string,
+    sizes:string
+}
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession()
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Products[]>([]);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {

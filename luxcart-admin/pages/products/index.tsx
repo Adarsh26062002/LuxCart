@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Image from 'next/image';
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
@@ -33,7 +34,7 @@ const Products = () => {
           <div className="sm:flex sm:items-center sm:justify-between">
             <div className="text-center sm:text-left">
               <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">All Products</h1>
-              <p className="mt-1.5 text-sm text-gray-500">Let's create a new product! 🎉</p>
+              <p className="mt-1.5 text-sm text-gray-500">Lets create a new product! 🎉</p>
             </div>
 
             <div className="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
@@ -76,10 +77,12 @@ const Products = () => {
                     <th className="px-6 py-4 font-medium text-gray-900">{index + 1}</th>
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 flex items-center  gap-1">
                       <div className="h-10 w-10">
-                        <img
+                        <Image
                           className="h-full w-full rounded-full object-cover object-center bg-gray-200"
                           src={product.images?.[0]}
                           alt={product.title}
+                          width={100}
+                          height={100}
                         />
 
                       </div>
