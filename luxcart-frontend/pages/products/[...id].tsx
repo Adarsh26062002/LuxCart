@@ -24,7 +24,7 @@ export default function ProductPage({ product }) {
               />
             </div>
             <div className="grid grid-cols-2 lg:grid lg:grid-cols-1 lg:gap-y-4 px-2 gap-2 md:gap-0 md:px-2">
-              {product.images.slice(1, 3).map((image, index) => (
+              {product.images.slice(1, 3).map((image:string, index:number) => (
                 <div
                   key={index}
                   className="lg:aspect-h-2 lg:aspect-w-3 lg:overflow-hidden lg:rounded-lg "
