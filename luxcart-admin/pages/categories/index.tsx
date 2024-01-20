@@ -179,8 +179,8 @@ export default function Categories() {
                                 </svg>
                               </div>
                               <div>
-                                <h3 className="text-lg font-medium text-gray-900">Delete blog post</h3>
-                                <div className="mt-2 text-sm text-gray-500 max-w-sm">Are you sure you want to delete this {category?.name}?</div>
+                                <h3 className="text-lg font-medium text-gray-900">Delete <span className="text-red-600">{category?.name}</span></h3>
+                                <div className="mt-2 text-sm text-gray-500 max-w-sm">Are you sure you want to delete this <span className="text-red-600">{category?.name}</span>?</div>
                               </div>
                             </div>
                             <div className="mt-5 flex justify-end gap-3">

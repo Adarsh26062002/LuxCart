@@ -89,14 +89,12 @@ export default function Header() {
                   </div>
                 </div>
 
-                {/* Mobile navigation button */}
                 <div className="block md:hidden">
                   <button
                     onClick={toggleMobileNav}
                     className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75"
                   >
                     {isMobileNavOpen ? (
-                      // X icon for close
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-5 w-5"
@@ -112,7 +110,6 @@ export default function Header() {
                         />
                       </svg>
                     ) : (
-                      // Menu icon for open
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-5 w-5"
@@ -131,7 +128,6 @@ export default function Header() {
                   </button>
                 </div>
 
-                {/* Mobile navigation links */}
                 {isMobileNavOpen && (
                   <div className="md:hidden absolute top-16 right-0 bg-white border border-zinc-200 rounded shadow-lg p-6 text-lg">
                     <ul className="flex flex-col items-start gap-4">

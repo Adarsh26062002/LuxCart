@@ -5,7 +5,7 @@ import GoogleProvider from 'next-auth/providers/google'
 
 
 export default NextAuth({
-  // adapter: MongoDBAdapter(clientPromise),
+  // adapter: MongoDBAdapter(clientPromise) as any,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,

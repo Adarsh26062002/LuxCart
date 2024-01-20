@@ -8,9 +8,9 @@ const handle = async(req: NextApiRequest, res: NextApiResponse): Promise<void> =
 
     try {
         if(method==='POST'){
-            const {title,price,description,images} = req.body;
+            const { title, description, price, details, images, category, brand, gender, sizes, colors, _id } = req.body;
             const productDoc = await Product.create({
-                title, price, description, images
+                title, description, price, details, images, category, brand, gender, sizes, colors, _id
             })
     
             res.status(200).json(productDoc);
@@ -47,21 +47,14 @@ const handle = async(req: NextApiRequest, res: NextApiResponse): Promise<void> =
     try {
         if (method === 'PUT') {
             console.log('hello');
-            const { title, _id, description, price, images } = req.body;
+            const { title, description, price, details, images, category, brand, gender, sizes, colors, _id } = req.body;
     
             console.log(images);
     
-            // Check if images is an array and has elements
             const updatedData = {
-                title,
-                description,
-                price,
-                images
+                title, description, price, details, images, category, brand, gender, sizes, colors
             };
     
-            // if (Array.isArray(images) && images.length > 0) {
-            //     updatedData.images = images;
-            // }
     
             const result = await Product.findByIdAndUpdate(_id, updatedData);
             console.log(result);

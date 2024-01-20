@@ -2,7 +2,7 @@ import React from 'react'
 import {FadeLoader} from 'react-spinners'
 
 type Props = {
-  className?: string; // Allow className as an optional prop
+  className?: string; 
   size? : number;
   color?: string;
 };

@@ -43,7 +43,7 @@ export default function Product({
   const [description, setDescription] = useState(existingDescription || '');
   const [price, setPrice] = useState(existingPrice || '');
   const [images, setImages] = useState<string[]>((existingImages[0]===''?[]:existingImages) || []);
-  const [details, setDetails] = useState(existingDetails || ''); // Added details
+  const [details, setDetails] = useState(existingDetails || ''); 
   const [brand, setBrand] = useState(existingBrand || '');
   const [colors, setColors] = useState(existingColors || '');
   const [gender, setGender] = useState(existingGender || '');
@@ -57,7 +57,7 @@ export default function Product({
 
   const imagesWithId: ItemInterface[] = images.map((link, index) => ({
     id: index.toString(),
-    link,  // Assuming 'link' is the property used in your ItemInterface for the image URL
+    link,  
   }));
 
   const updateImagesOrder = (newImagesOrder: ItemInterface[]) => {
@@ -74,15 +74,15 @@ export default function Product({
   async function createProduct(ev:React.ChangeEvent<HTMLFormElement>) {
     ev.preventDefault();
 
-
-    // Check if there are new images to upload
+    if (!title || !description || !price || !details || !category || !brand || !gender || !sizes || !colors) {
+      toast.error('All fields are required');
+      return;
+    }
+  
     if (isUploading) {
-      // Wait for the images to finish uploading
       await Promise.all(uploadImagesQueue);
-      
     }
 
-    // Now you can make the API request to save the product
     const data = { title, description, price, details, images, category, brand, gender, sizes, colors };
     if (_id) {
       await axios.put('/api/products', { ...data, _id });
@@ -92,32 +92,27 @@ export default function Product({
       toast.success('Product created!!')
     }
 
-    // Redirect after saving
     setRedirect(true);
   }
 
-//   console.log(typeof uploadImagesQueue)
 
 async function uploadImages(ev: React.ChangeEvent<HTMLInputElement>) {
     const files = ev.target?.files;
-  
+
     if (files && files?.length > 0) {
       setIsUploading(true);
   
-      // Create an array to store all the promises
       const uploadPromises = [];
   
       for (const file of files) {
         const data = new FormData();
         data.append('file', file);
   
-        // Create a promise and push it to the array
         const uploadPromise = axios.post('/api/upload', data)
           .then(res => {
             setImages(oldImages => [...oldImages, ...res.data.links]);
           })
           .catch(error => {
-            // Handle individual upload errors
             console.error(`Error uploading ${file.name}:`, error);
           });
   
@@ -125,15 +120,12 @@ async function uploadImages(ev: React.ChangeEvent<HTMLInputElement>) {
       }
   
       try {
-        // Wait for all images to finish uploading
         await Promise.all(uploadPromises);
         toast.success('Images uploaded successfully');
       } catch (error) {
-        // Handle errors if any of the uploads fail
         console.error('Error uploading images:', error);
         toast.error('An error occurred during image upload');
       } finally {
-        // Clear the uploadImagesQueue after all promises are resolved
         uploadImagesQueue.length = 0;
         setIsUploading(false);
       }
@@ -161,7 +153,6 @@ async function uploadImages(ev: React.ChangeEvent<HTMLInputElement>) {
   return (
     <div className="mx-auto max-w-2xl">
       <form onSubmit={createProduct} className="space-y-5">
-        {/* Title input */}
         <div className="grid grid-cols-2 items-center my-4">
           <label className="col-span-1 block text-lg font-medium text-gray-700 mb-3">Title</label>
           <div className="col-span-2">
@@ -176,7 +167,6 @@ async function uploadImages(ev: React.ChangeEvent<HTMLInputElement>) {
           </div>
         </div>
 
-        {/* Category select */}
         <div>
           <label htmlFor="category" className="block text-lg font-medium text-gray-900">
             Select Category
@@ -187,7 +177,7 @@ async function uploadImages(ev: React.ChangeEvent<HTMLInputElement>) {
             value={category}
             onChange={(ev) => setCategory(ev.target.value)}
           >
-            <option value="0">No category selected</option>
+            <option>No category selected</option>
             {categories && categories.length > 0 &&
               categories.map((cat) => (
                 <option key={cat._id} value={cat._id}>
@@ -197,7 +187,6 @@ async function uploadImages(ev: React.ChangeEvent<HTMLInputElement>) {
           </select>
         </div>
 
-        {/* Images upload */}
         <div className="flex flex-col gap-4">
           <div className="flex items-center">
             <label className="text-lg font-medium text-gray-700 mr-2">Images</label>
@@ -213,14 +202,12 @@ async function uploadImages(ev: React.ChangeEvent<HTMLInputElement>) {
             </div>
           </div>
 
-          {/* Spinner during upload */}
           <div className="grid grid-cols-2 items-center rounded">
             {isUploading && (
               <Spinner className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             )}
           </div>
 
-          {/* Display uploaded images */}
           {!isUploading && (
             <div className=" grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-2">
               <ReactSortable list={imagesWithId} setList={updateImagesOrder} className="w-[500px] h-auto  gap-2 flex  justify-between align-items-center">
@@ -242,7 +229,6 @@ async function uploadImages(ev: React.ChangeEvent<HTMLInputElement>) {
 
         </div>
 
-        {/* Description input */}
         <div className="grid grid-cols-2 items-center my-4">
           <label className="col-span-1 block text-lg font-medium text-gray-700 mb-3">Description</label>
           <div className="col-span-2">
@@ -257,7 +243,6 @@ async function uploadImages(ev: React.ChangeEvent<HTMLInputElement>) {
           </div>
         </div>
 
-        {/* Product Details input */}
         <div className="grid grid-cols-2 items-center my-4">
           <label className="col-span-1 block text-lg font-medium text-gray-700 mb-3">
             Product Details
@@ -274,7 +259,6 @@ async function uploadImages(ev: React.ChangeEvent<HTMLInputElement>) {
           </div>
         </div>
 
-        {/* more details */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label>Brand</label>
@@ -323,7 +307,6 @@ async function uploadImages(ev: React.ChangeEvent<HTMLInputElement>) {
           </div>
         </div>
 
-        {/* Price input */}
         <div className="grid grid-cols-2 items-center my-4">
           <label className="col-span-1 block text-lg font-medium text-gray-700 mb-3">Price</label>
           <div className="col-span-2">
@@ -338,7 +321,6 @@ async function uploadImages(ev: React.ChangeEvent<HTMLInputElement>) {
           </div>
         </div>
 
-        {/* Save button */}
         <div className="items-center my-4">
           <div className="col-span-2 col-start-2">
             <button

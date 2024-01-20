@@ -37,12 +37,7 @@ const EditProduct = (props: Props) => {
   
     fetchData();
   }, [id]);
-//   console.log({productsInfo});
-
-//   useEffect(()=>{
-//       if(!id)
-//         return;
-
+  
     const goBack = ()=>{
         router.push('/products')
     };
