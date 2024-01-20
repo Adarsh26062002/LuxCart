@@ -223,10 +223,10 @@ async function uploadImages(ev: React.ChangeEvent<HTMLInputElement>) {
           {/* Display uploaded images */}
           {!isUploading && (
             <div className=" grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-2">
-              <ReactSortable list={imagesWithId} setList={updateImagesOrder} className="w-[350px] h-auto  gap-2 flex  justify-between align-items-center">
+              <ReactSortable list={imagesWithId} setList={updateImagesOrder} className="w-[500px] h-auto  gap-2 flex  justify-between align-items-center">
                 {images?.map((link, index) => (
                   <div key={link} className="relative group">
-                    <Image width={100} height={100} src={link} alt="image" className="object-cover h-32 w-44 rounded-md border p-2 cursor-pointer transition-transform transform-gpu group-hover:scale-105" />
+                    <Image width={100} height={100} src={link} alt="image" className="object-cover h-32 w-60 rounded-md border p-2 cursor-pointer transition-transform transform-gpu group-hover:scale-105" />
                     <div className="absolute top-2 right-2 cursor-pointer opacity-0 group-hover:opacity-100">
                       <button onClick={() => handleDeleteImage(index)}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 text-orange-600 bg-white rounded-full">

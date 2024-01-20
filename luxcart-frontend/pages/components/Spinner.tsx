@@ -5,7 +5,7 @@ type Props = {}
 
 const Spinner = (props: Props) => {
   return (
-    <FadeLoader color="#36d7b7" size={100}/>
+    <FadeLoader color="#36d7b7"/>
   )
 }
 

@@ -1,8 +1,9 @@
-import { CartContext } from '@/lib/CartContext'
+import { CartContext } from '@/lib/Context/CartContext'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useContext } from 'react'
 import {SessionProvider,useSession} from 'next-auth/react'
+import Image from 'next/image'
 
 
 type Props = {}
@@ -50,7 +51,7 @@ const Header = (props: Props) => {
                                 {session? (
                                     <div className='sm:flex sm:gap-2 border-r pr-4'>
                                         <div className='h-9 w-9'>
-                                            <img src={session?.user?.image} alt={session?.user?.name} className='h-full w-full rounded-full object-cover'/>
+                                            <Image width={100} height={100} src={session?.user?.image ?? ''} alt={session?.user?.name ?? ''} className='h-full w-full rounded-full object-cover'/>
                                         </div>
                                     </div>
                                 ):(

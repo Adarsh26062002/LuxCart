@@ -1,4 +1,5 @@
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
 
@@ -15,7 +16,7 @@ const formatPrice = (price: any) => {
 }
 
 const Collection = (collectionProduct: collectionProductProps) => {
-    const {data:session} = useSession();
+    const { data: session } = useSession();
 
     return (
         <>
@@ -52,16 +53,20 @@ const Collection = (collectionProduct: collectionProductProps) => {
 
                                 <div className='lg-col-span-2 lg:py-8 min-w-96'>
                                     <ul className='grid grid-cols-2 gap-4'>
-                                        <li>
-                                            <div className='block group'>
-                                                <img src={collectionProduct.images[0]} alt="product" className='object-cover w-full rounded aspect-square h-80' />
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div className='block group'>
-                                                <img src={collectionProduct.images[0]} alt="product" className='object-cover w-96 rounded aspect-square h-80' />
-                                            </div>
-                                        </li>
+                                        {(collectionProduct && collectionProduct.images && Array.isArray(collectionProduct.images)) && collectionProduct.images.slice(0, 2).map((image, index) => (
+                                            <li key={index}>
+                                                <div className='block group'>
+                                                    <Image
+                                                        width={250}
+                                                        height={250}
+                                                        src={image}
+                                                        alt={`product-${index}`}
+                                                        className='object-cover w-full rounded aspect-square h-80'
+                                                    />
+                                                </div>
+                                            </li>
+                                        ))}
+
                                     </ul>
                                 </div>
                             </div>

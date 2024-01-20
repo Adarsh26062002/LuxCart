@@ -1,4 +1,5 @@
 import { useSession,signOut } from 'next-auth/react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -22,7 +23,9 @@ const Settings = (props: Props) => {
                                 <div className="sm:flex sm:gap-4 flex justify-between items-center">
                                     <div className='h-9 w-9 my-4'>
                                         {session?.user?.image && (
-                                            <img
+                                            <Image
+                                                width={100}
+                                                height={100}
                                                 className="h-full w-full rounded-full object-cover object-center"
                                                 src={session.user.image}
                                                 alt=""

@@ -1,9 +1,10 @@
 import { mongooseConnect } from "@/lib/mongoose";
 import { Order } from "@/models/Order";
 import { Product } from "@/models/Product";
+import { NextApiRequest, NextApiResponse } from "next";
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 
-export default async function handler(req, res) {
+export default async function handler(req:NextApiRequest, res:NextApiResponse) {
   if (req.method !== 'POST') {
     res.json('Should be a post request');
     return;
@@ -21,9 +22,9 @@ export default async function handler(req, res) {
   let line_items = [];
 
   for (const productId of uniqueIds) {
-    const productInfo = productsInfo.find(p => p._id.toString() === productId);
+    const productInfo = productsInfo.find((p:any) => p._id.toString() === productId);
 
-    const quantity = productIds.filter(id => id === productId)?.length || 0;
+    const quantity = productIds.filter((id:string) => id === productId)?.length || 0;
 
     if (quantity > 0 && productInfo) {
       line_items.push(
