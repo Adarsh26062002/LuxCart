@@ -60,8 +60,8 @@ const Products = () => {
           <p>No products found</p>
         ) : (
 
-          <div className="w-full">
-            <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
+          <div className="w-full overflow-scroll">
+            <table className="w-full border-collapse bg-white text-left text-sm text-gray-500 overflow-x-scroll">
               <thead className="bg-gray-50">
                 <tr>
                   <th scope="col" className="px-6 py-4 font-medium text-gray-900"></th>

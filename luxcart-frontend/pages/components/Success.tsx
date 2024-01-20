@@ -29,7 +29,7 @@ const Success = (props: Props) => {
             </div>
           </div>
           <div className="mt-5 flex justify-end gap-3">
-            <Link href="/products" className="flex-1 rounded-lg border border-primary-500 bg-primary-500 px-4 py-2 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-primary-700 hover:bg-primary-700 focus:ring focus:ring-primary-200 disabled:cursor-not-allowed disabled:border-primary-300 disabled:bg-primary-300">
+            <Link href="/products" className="hover:bg-primary hover:text-white flex-1 rounded-lg border border-primary-500 bg-primary-500 px-4 py-2 text-center text-bold font-medium text-primary shadow-sm transition-all hover:border-primary-700 hover:bg-primary-700 focus:ring focus:ring-primary-200 disabled:cursor-not-allowed disabled:border-primary-300 disabled:bg-primary-300">
               Continue Shopping</Link>
           </div>
         </div>

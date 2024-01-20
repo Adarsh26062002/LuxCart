@@ -35,8 +35,8 @@ export default function Products({ products }:any) {
                       />
   
                       <Image
-                        width={100}
-                        height={100}
+                        width={150}
+                        height={150}
                         src={product.images[1]}
                         alt=""
                         className="absolute inset-0 h-full w-full object-contain opacity-0 group-hover:opacity-100"

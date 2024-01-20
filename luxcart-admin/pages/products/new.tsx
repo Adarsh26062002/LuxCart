@@ -1,6 +1,7 @@
 import Product from '@/components/Product'
 import React, { useState } from 'react'
 
+const product = {}
 const NewProduct = () => {
   return (
     <>

@@ -118,23 +118,31 @@ const Cart = (props: Props) => {
   }
 
   if (session) {
-    return <>
-
-      <section className="flex justify-between max-md:flex-col space-x-4 ">
-        <div className=" md:w-2/3  px-4">
-          <div className=" mt-16 md:mt-6">
-            <header className="text-center flex justify-between w-full">
-              <h1 className="text-xl font-bold text-gray-900 sm:text-3xl">Your Cart</h1>
-            </header>
-            {loading ? (
-              <div className="flex justify-center items-center h-screen">
-                <Spinner />
+    return (
+      <>
+        {loading ? (
+          <div className="flex justify-center items-center h-screen">
+            <Spinner />
+          </div>
+        ) :
+          !products?.length ? (
+            <section className="flex justify-center max-md:flex-col space-x-4 ">
+              <div className=" md:w-2/3  px-4">
+                <div className=" mt-16 md:mt-6">
+                  <header className="text-center flex justify-between w-full">
+                    <h1 className="text-xl w-full text-center font-bold text-gray-900 sm:text-3xl">Your Cart</h1>
+                  </header>
+                  <p className="my-6 text-center ">Your cart is empty</p>
+                </div>
               </div>
-            ) :
-              !products?.length ? (
-                <p className="my-6 text-center ">Your cart is empty</p>
-              ) : (
-                <>
+            </section>
+          ) : (
+            <><section className="flex justify-between max-md:flex-col space-x-4 px-4 pt-2 pb-10">
+              <div className=" md:w-2/3 px-6">
+                <div className=" mt-16 md:mt-6">
+                <header className="text-center flex justify-between w-full">
+                    <h1 className=" text-xl w-full text-center font-bold sm:text-3xl">Your Cart</h1>
+                  </header>
                   {products?.length > 0 && products.map(product => (
                     <div key={product._id} className="mt-8">
                       <ul className="space-y-4">
@@ -249,86 +257,81 @@ const Cart = (props: Props) => {
                       </div>
                     </div>
                   </div>
-                </>
-              )}
-          </div>
-        </div>
-        {!products.length ? (
-          ''
-        ) : (
-          <div className="md:1/3 mt-16 md:mt-6">
-            <header className="text-start flex flex-col w-full">
-              <h1 className="text-xl font-bold text-gray-900 sm:text-3xl">Shipping details</h1>
-              <p className="mt-2 text-text text-lg">We use your account details for shipping.</p>
-            </header>
-            <div className="mx-auto max-w-xl p-4 border shadow-xl h-[400px] my-3">
-              <div className="space-y-5">
-                <div className="grid grid-cols-12 gap-5">
-                  <div className="col-span-6">
-                    <label className="mb-1 block text-sm font-medium text-text">Email</label>
-                    <input type="email" name="email" className="block w-full rounded-md p-3 border border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500"
-                      value={session?.user?.email ?? ''}
-                      placeholder='Email'
-                    />
-
-                  </div>
-                  <div className="col-span-6">
-                    <label className="mb-1 block text-sm font-medium text-text">Full Name</label>
-                    <input type="text" name="name" className="block w-full rounded-md p-3 border border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500"
-                      value={session?.user?.name ?? ''}
-                      placeholder='Full name'
-                    />
-                  </div>
-                  <div className="col-span-12">
-                    <label className="mb-1 block text-sm font-medium text-text">Address</label>
-                    <input type="text" name="address" className="block w-full rounded-md p-3 border border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500" placeholder="1864 Main Street"
-                      value={address}
-                      onChange={ev => setAddress(ev.target.value)}
-                      required
-                    />
-
-                  </div>
-                  <div className="col-span-6">
-                    <label className="mb-1 block text-sm font-medium text-text">City</label>
-                    <input type="text" name="city" className="block w-full rounded-md p-3 border border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500" placeholder=""
-                      value={city}
-                      onChange={ev => setCity(ev.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="col-span-4">
-                    <label className="mb-1 block text-sm font-medium text-text">State</label>
-                    <input type="text" name="state" className="block w-full rounded-md p-3 border border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500" placeholder=""
-                      value={country}
-                      onChange={ev => setCountry(ev.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <label className="mb-1 block text-sm font-medium text-text">Zip</label>
-                    <input type="text" name="zip" className="block w-full rounded-md p-3 border border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500" placeholder=""
-                      value={zip}
-                      onChange={ev => setZip(ev.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="col-span-12 text-center w-full">
-                    <button
-                      onClick={stripeCheckout}
-                      className="disabled block rounded bg-secondary px-5 py-3 text-md text-text transition hover:bg-purple-300 w-full"
-                    >
-                      Checkout
-                    </button>
-                  </div>
                 </div>
               </div>
-            </div>
+              <div className="md:1/3 mt-16 md:mt-6">
+                <header className="text-start flex flex-col w-full">
+                  <h1 className="text-xl font-bold text-gray-900 sm:text-3xl">Shipping details</h1>
+                  <p className="mt-2 text-text text-lg">We use your account details for shipping.</p>
+                </header>
+                <div className="mx-auto max-w-xl p-4 border shadow-xl h-[400px] my-3">
+                  <div className="space-y-5">
+                    <div className="grid grid-cols-12 gap-5">
+                      <div className="col-span-6">
+                        <label className="mb-1 block text-sm font-medium text-text">Email</label>
+                        <input type="email" name="email" className="block w-full rounded-md p-3 border border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500"
+                          value={session?.user?.email ?? ''}
+                          placeholder='Email'
+                        />
 
-          </div>
-        )}
+                      </div>
+                      <div className="col-span-6">
+                        <label className="mb-1 block text-sm font-medium text-text">Full Name</label>
+                        <input type="text" name="name" className="block w-full rounded-md p-3 border border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500"
+                          value={session?.user?.name ?? ''}
+                          placeholder='Full name'
+                        />
+                      </div>
+                      <div className="col-span-12">
+                        <label className="mb-1 block text-sm font-medium text-text">Address</label>
+                        <input type="text" name="address" className="block w-full rounded-md p-3 border border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500" placeholder="1864 Main Street"
+                          value={address}
+                          onChange={ev => setAddress(ev.target.value)}
+                          required
+                        />
 
-      </section>
-    </>
+                      </div>
+                      <div className="col-span-6">
+                        <label className="mb-1 block text-sm font-medium text-text">City</label>
+                        <input type="text" name="city" className="block w-full rounded-md p-3 border border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500" placeholder=""
+                          value={city}
+                          onChange={ev => setCity(ev.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="col-span-4">
+                        <label className="mb-1 block text-sm font-medium text-text">State</label>
+                        <input type="text" name="state" className="block w-full rounded-md p-3 border border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500" placeholder=""
+                          value={country}
+                          onChange={ev => setCountry(ev.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="col-span-2">
+                        <label className="mb-1 block text-sm font-medium text-text">Zip</label>
+                        <input type="text" name="zip" className="block w-full rounded-md p-3 border border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500" placeholder=""
+                          value={zip}
+                          onChange={ev => setZip(ev.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="col-span-12 text-center w-full">
+                        <button
+                          onClick={stripeCheckout}
+                          className="disabled block rounded bg-secondary px-5 py-3 text-md text-text transition hover:bg-purple-300 w-full"
+                        >
+                          Checkout
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+            </>
+          )}
+      </>)
   }
 
   return <>

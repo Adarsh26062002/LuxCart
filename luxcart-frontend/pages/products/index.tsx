@@ -16,14 +16,14 @@ const Products = ({ allProducts }:any) => {
     const {addProduct} = useContext(CartContext);
     return (
         <>
-            <div className="flex justify-center min-h-screen w-full">
+            <div className="flex justify-center min-h-screen w-full pt-14 pb-8 md:p-8">
                 <div className="grid grid-cols-2 gap-x-3 md:gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 xl:gap-x-8 px-2">
                     {allProducts.length > 0 && allProducts.map((product:any) => (
                         <div key={product._id}>
                             <div className="group block overflow-hidden border border-accent rounded-xl border-opacity-10">
                                 <div className="relative md:h-[300px] h-[200px]">
-                                    <Image width={100} height={100} src={product.images[0]} alt="product-image" className="absolute inset-0 h-full w-full object-contain opacity-100 group-hover:opacity-0" />
-                                    <Image width={100} height={100} src={product.images[1]} alt="product-image" className="absolute inset-0 h-full w-full object-contain opacity-0 group-hover:opacity-100" />
+                                    <Image width={150} height={150} src={product.images[0]} alt="product-image" className="absolute inset-0 h-full w-full object-contain opacity-100 group-hover:opacity-0" />
+                                    <Image width={150} height={150} src={product.images[1]} alt="product-image" className="absolute inset-0 h-full w-full object-contain opacity-0 group-hover:opacity-100" />
                                 </div>
 
                                 <div className="relative p-3 border-t">

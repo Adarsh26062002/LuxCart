@@ -42,7 +42,7 @@ export default function Product({
   const [title, setTitle] = useState(existingTitle || '');
   const [description, setDescription] = useState(existingDescription || '');
   const [price, setPrice] = useState(existingPrice || '');
-  const [images, setImages] = useState<string[]>(existingImages || []);
+  const [images, setImages] = useState<string[]>((existingImages[0]===''?[]:existingImages) || []);
   const [details, setDetails] = useState(existingDetails || ''); // Added details
   const [brand, setBrand] = useState(existingBrand || '');
   const [colors, setColors] = useState(existingColors || '');
