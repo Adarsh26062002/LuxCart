@@ -34,7 +34,7 @@ const Collection = (collectionProduct: collectionProductProps) => {
                         <div className='mx-w-screen-2xl px-4 py-8 mx-auto sm:py-12 sm:px-6 lg:px-8 flex justify-center'>
                             <div className='grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-stretch'>
                                 <div className='grid h-full bg-gray-100 rounded place-content-center sm:p-4'>
-                                    <div className='max-w-lg mx-auto text-center  lg:text-left'>
+                                    <div className='max-w-lg mx-auto text-center lg:text-left min-h-[250px] flex flex-col justify-center items-center'>
                                         <header>
                                             <h2 className='text-xl font-bold text-accent sm:text-3xl'>
                                                 {collectionProduct.title}

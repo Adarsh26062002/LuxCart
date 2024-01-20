@@ -53,7 +53,7 @@ export default function Products({ products }:any) {
                       </Link>
   
                       <div className="mt-1.5 flex items-center justify-between text-text">
-                        <p className="tracking-wide text-primary">ksh. {formatPrice(product.price)}</p>
+                        <p className="tracking-wide text-primary">${formatPrice(product.price)}</p>
   
   
                         <button onClick={() => {addProduct(product._id);

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { CartContext } from '@/lib/Context/CartContext';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 
 type ProductProps = {
     _id: string;
@@ -43,14 +44,14 @@ const Hero = (product: ProductProps) => {
                                     <div className='hidden flex-shrink-0 grid-cols-1 gap-y-12 lg:grid lg:flex-shrink-0 lg:grid-cols-1 lg:gap-y-12'>
                                         {(product && product.images && Array.isArray(product.images)) && product.images.slice(0, 2).map((image, index) => (
                                             <div key={index} className='w-72 h-80 overflow-hidden rounded-lg border border-secondary transform rotate-3 translate-x-4 hover:-rotate-6 hover:translate-x-8 transition-transform duration-300 ease-in-out'>
-                                                <img src={image} alt="" className='h-full w-full object-cover object-center' />
+                                                <Image width={200} height={200} src={image} alt="" className='h-full w-full object-cover object-center' />
                                             </div>
                                         ))}
                                     </div>
                                     <div className='my-8 grid flex-shrink-0 grid-cols-1 gap-y-12 lg:grid lg:flex-shrink-0 lg:grid-cols-1 lg:gap-y-12'>
                                         {(product && product.images && Array.isArray(product.images)) && product.images.slice(2, 4).map((image, index) => (
                                             <div key={index} className=' w-60 sm:w-72 sm:h-80 lg:w-72 lg:h-80 overflow-hidden rounded-lg border border-secondary transform rotate-3 translate-x-4 hover:-rotate-6 hover:translate-x-8 transition-transform duration-300 ease-in-out'>
-                                                <img src={image} alt="" className='h-full w-full object-cover object-center' />
+                                                <Image width={200} height={200} src={image} alt="" className='h-full w-full object-cover object-center' />
                                             </div>
                                         ))}
                                     </div>
